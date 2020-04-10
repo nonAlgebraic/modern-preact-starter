@@ -1,0 +1,142 @@
+{
+  "name": "modern-preact-starter",
+  "version": "0.1.0",
+  "description": "A starter template for building Preact apps with browser-native ES6 modules and no bundlers.",
+  "main": "index.html",
+  "repository": "https://github.com/nonAlgebraic/modern-preact-starter",
+  "author": "nonAlgebraic <https://github.com/nonalgebraic/>",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "snowpack",
+    "babel": "babel src --ignore '**/*.test.tsx' --out-dir lib --extensions .tsx --source-maps",
+    "dev": "concurrently 'yarn babel --watch' 'servor --reload'",
+    "build": "yarn babel && snowpack --optimize --include lib/**/*.js",
+    "test": "jest",
+    "typecheck": "tsc",
+    "lint": "eslint src/**/*.tsx"
+  },
+  "browserslist": [
+    "extends browserslist-config-google/modern"
+  ],
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-typescript",
+        {
+          "isTSX": true,
+          "allExtensions": true,
+          "jsxPragma": "h"
+        }
+      ]
+    ],
+    "plugins": [
+      "emotion",
+      "babel-plugin-transform-inline-environment-variables",
+      [
+        "transform-react-jsx",
+        {
+          "pragma": "h"
+        }
+      ],
+      "snowpack/assets/babel-plugin.js",
+      "add-import-extension"
+    ],
+    "env": {
+      "production": {
+        "presets": [
+          "minify"
+        ]
+      }
+    }
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": [
+        "./tsconfig.json"
+      ]
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "eslint-config-standard-with-typescript",
+      "plugin:@typescript-eslint/recommended-requiring-type-checking",
+      "preact",
+      "prettier/@typescript-eslint",
+      "plugin:prettier/recommended",
+      "plugin:jest/recommended",
+      "plugin:jsx-a11y/recommended"
+    ]
+  },
+  "stylelint": {
+    "extends": [
+      "stylelint-config-standard",
+      "stylelint-config-rational-order",
+      "stylelint-config-styled-components",
+      "stylelint-prettier/recommended"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "jsdom",
+    "snapshotSerializers": [
+      "jest-emotion"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.tsx",
+      "!src/index.tsx"
+    ]
+  },
+  "dependencies": {
+    "emotion": "^10.0.27",
+    "normalize.css": "^8.0.1",
+    "preact": "^10.4.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-transform-react-jsx": "^7.9.4",
+    "@babel/preset-typescript": "^7.9.0",
+    "@testing-library/jest-dom": "^5.5.0",
+    "@testing-library/preact": "^1.0.2",
+    "@types/jest": "^25.2.1",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "babel-plugin-add-import-extension": "^1.3.1",
+    "babel-plugin-emotion": "^10.0.33",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-minify": "^0.5.1",
+    "browserslist-config-google": "^2.0.0",
+    "concurrently": "^5.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-preact": "^1.1.1",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-config-standard-with-typescript": "^15.0.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^25.3.0",
+    "jest-emotion": "^10.0.32",
+    "prettier": "^2.0.4",
+    "servor": "^3.2.0",
+    "snowpack": "^1.6.0",
+    "stylelint": "^13.3.1",
+    "stylelint-config-prettier": "^8.0.1",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-order": "^4.0.0",
+    "stylelint-prettier": "^1.1.2",
+    "ts-jest": "^25.3.1",
+    "typescript": "^3.8.3"
+  }
+}
