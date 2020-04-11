@@ -2,18 +2,19 @@
   "name": "modern-preact-starter",
   "version": "0.1.0",
   "description": "A starter template for building Preact apps with browser-native ES6 modules and no bundlers.",
-  "main": "index.html",
+  "main": "public/index.html",
   "repository": "https://github.com/nonAlgebraic/modern-preact-starter",
   "author": "nonAlgebraic <https://github.com/nonalgebraic/>",
   "license": "MIT",
   "scripts": {
-    "prepare": "snowpack",
-    "babel": "babel src --ignore '**/*.test.tsx' --out-dir lib --extensions .tsx --source-maps",
-    "dev": "concurrently 'yarn babel --watch' 'servor --reload'",
-    "build": "yarn babel && snowpack --optimize --include lib/**/*.js",
+    "babel": "babel src --ignore '**/*.test.tsx' --out-dir public/lib --extensions .tsx --source-maps",
+    "prepare": "yarn babel && snowpack --dest public/web_modules --include 'public/lib/**/*.js'",
+    "dev": "concurrently 'yarn babel --watch' 'servor public --reload'",
+    "babel-clean": "rm -rf public/lib",
+    "build": "yarn babel-clean && yarn prepare --clean --optimize",
     "test": "jest",
     "typecheck": "tsc",
-    "lint": "eslint src/**/*.tsx"
+    "lint": "eslint src/**/*.tsx && stylelint src/**/*.tsx"
   },
   "browserslist": [
     "extends browserslist-config-google/modern"
@@ -38,7 +39,6 @@
           "pragma": "h"
         }
       ],
-      "snowpack/assets/babel-plugin.js",
       "add-import-extension"
     ],
     "env": {
@@ -67,7 +67,14 @@
       "plugin:prettier/recommended",
       "plugin:jest/recommended",
       "plugin:jsx-a11y/recommended"
-    ]
+    ],
+    "ignorePatterns": [
+      "public/",
+      "node_modules/"
+    ],
+    "rules": {
+      "import/no-absolute-path": "off"
+    }
   },
   "stylelint": {
     "extends": [
@@ -90,6 +97,14 @@
       "src/**/*.tsx",
       "!src/index.tsx"
     ]
+  },
+  "snowpack": {
+    "webDependencies": [
+      "normalize.css/normalize.css"
+    ],
+    "installOptions": {
+      "sourceMap": true
+    }
   },
   "dependencies": {
     "emotion": "^10.0.27",
@@ -139,6 +154,7 @@
     "stylelint-order": "^4.0.0",
     "stylelint-prettier": "^1.1.2",
     "ts-jest": "^25.3.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "yarn": "^1.22.4"
   }
 }

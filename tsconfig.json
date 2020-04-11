@@ -17,6 +17,14 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "importsNotUsedAsValues": "error",
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "/web_modules/*.js": [
+        "node_modules/@types/*",
+        "node_modules/*",
+        "web_modules/*.js"
+      ]
+    }
   }
 }

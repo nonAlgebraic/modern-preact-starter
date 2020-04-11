@@ -20,7 +20,7 @@ Other technologies/libraries that this starter pack uses:
 ## Setup
 
 Just run `yarn install` (or `npm install`). This will also automatically run
-Snowpack to re-install all dependencies as ESM-importable files into `/web_modules`.
+Snowpack to re-install all imported dependencies as ESM-importable files into `/public/web_modules`.
 
 ## Local development
 
@@ -28,19 +28,47 @@ Run `yarn dev` to start a local web server, as well as a Babel watcher. When you
 make changes to any files inside the `/src` directory, they will be
 re-transpiled and the browser will reload the page.
 
-Other available scripts:
+**Important notes:**
 
-- `prepare` - runs Snowpack for local development, and is also
-  automatically run after any new package is installed.
-- `babel` - transpiles TypeScript source files once.
-- `test` - runs all test suites using Jest.
-- `typecheck` - runs a type check against all TypeScript code (without
-  emitting transpiled files).
-- `lint` - runs ESLint against all TypeScript code.
+- When importing NPM packages in your source code, **do not** use package names
+  as the path:
+
+  ```TypeScript
+   // DON'T DO THIS
+   import { h } from 'preact';
+  ```
+
+  This is because the browser is unable to resolve
+  modules by name, and there is no bundler around to transform traditionial Node
+  imports to something the browser can understand.
+
+  Instead, use the path to the Snowpack-generated file, like so:
+
+  ```TypeScript
+  // DO THIS INSTEAD
+  import { h } from '/web_modules/preact.js'
+  ```
+
+  TypeScript is pre-configured to intepret paths starting with "`/web_modules`"
+  aliases for "`node_modules`".
+
+- When adding any new dependency imports to your soure code, always
+  run `yarn prepare` afterwards in order to ensure that Snowpack makes them available in `/public/web_modules`.
 
 ## Build
 
 Just run `yarn build` to transpile all TypeScript into the `/lib` directory.
-This also runs Snowpack using the `--optimize` and `--include` flags, which
-ensure that only packages that are actually imported in your source code are
-re-installed into `/web_modules`. It also does some tree-shaking.
+This also runs Snowpack with minification and tree-shaking of dependencies.
+
+## Other available scripts
+
+- `babel` - transpiles TypeScript source files into `/public/lib`
+- `prepare` - runs `babel`, and then runs Snowpack to re-install any
+  dependencies imported in `/public/lib` files into `/public/web_modules` as
+  single ES6 module files. This also automatically runs whenever `yarn install` is run.
+- `babel-clean` - removes the `/public/lib` directory.
+- `test` - runs all test suites using Jest.
+- `typecheck` - runs a type check against all TypeScript code (without
+  emitting transpiled files).
+- `lint` - runs ESLint and Stylelint against all TypeScript code and Emotion
+  CSS, respectively.

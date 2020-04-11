@@ -1,5 +1,5 @@
-import { h, FunctionComponent } from 'preact';
-import { css } from 'emotion';
+import { h, FunctionComponent } from '/web_modules/preact.js';
+import { css } from '/web_modules/emotion.js';
 
 const style = css`
   & {
